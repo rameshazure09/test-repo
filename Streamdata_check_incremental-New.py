@@ -44,7 +44,7 @@ spark.conf.set("fs.azure.account.key."+storage_account_name+".blob.core.windows.
 
 # COMMAND ----------
 
-df_test_sample_data = sql("select b.VehicleId as VehicleId, cast(a.da as date) as date,a.sid,round(AVG(a.ld)) as load, b.WheelPosition from kodiak.rawtesttelemetry a join kodiak.testvehiclemap b on a.sid = b.SensorID  group by a.da,a.sid,b.WheelPosition,b.VehicleId order by VehicleId,a.da,b.WheelPosition")
+df_test_sample_data = sql("select b.VehicleId as VehicleId, cast(a.da as date) as date,a.sid,round(AVG(a.ld)) as load, b.WheelPosition from testschema.rawtesttelemetry a join testschema.testvehiclemap b on a.sid = b.SensorID  group by a.da,a.sid,b.WheelPosition,b.VehicleId order by VehicleId,a.da,b.WheelPosition")
 #df.createOrReplaceTempView("LoadTable")
 
 # COMMAND ----------
