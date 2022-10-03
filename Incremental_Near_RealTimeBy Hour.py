@@ -4,7 +4,7 @@
 # COMMAND ----------
 
 # %sql
-# create table einride_vehiclelog_lookup 
+# create table Test_log_lookup 
 # (date date,
 # hour_path int,
 # isprocessed varchar(2))
@@ -29,7 +29,7 @@ print(today_date)
 
 # COMMAND ----------
 
-df_max_date = sql("select max(date) as dt from einride_vehiclelog_lookup")
+df_max_date = sql("select max(date) as dt from Test_log_lookup")
 max_date1 = df_max_date.select('dt').collect()
 max_date = max_date1[0].dt
 print(max_date)
@@ -46,7 +46,7 @@ if max_date == today_date1:
 else:
   hour_path = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]
   for i in hour_path:
-    sql("insert into einride_vehiclelog_lookup values ({0},{1},'N')".format(today_date,i)) 
+    sql("insert into Test_log_lookup values ({0},{1},'N')".format(today_date,i)) 
   print("dates are different")
 
 # COMMAND ----------
@@ -70,7 +70,7 @@ from datetime import datetime
 now = datetime.now()
 current_hour = now.strftime("%H")
 #current_hour = 3
-df_hour_path = sql('select hour_path from einride_vehiclelog_lookup where hour_path <{0} and isprocessed = "N" order by hour_path'.format(current_hour))
+df_hour_path = sql('select hour_path from Test_log_lookup where hour_path <{0} and isprocessed = "N" order by hour_path'.format(current_hour))
 
 # COMMAND ----------
 
@@ -87,18 +87,18 @@ print(filepaths)
 
 # COMMAND ----------
 
-# MAGIC %md ###append the above filepaths data to einride.vehiclelog table
+# MAGIC %md ###append the above filepaths data to Test.log table
 
 # COMMAND ----------
 
-location_delta_path = '/mnt/deltalake/EinRide/Rawstream/VehicleLog'
-rootPath = '/mnt/rawstream/EinRide/VehicleLog/'
+location_delta_path = '/mnt/deltalake/Test/Rawstream/log'
+rootPath = '/mnt/rawstream/Test/log/'
 for i in filepaths:
   locations = i+'/*/'
   locationDF = spark.read.format('parquet').load(rootPath+locations)
   locationDF.write.format("delta").mode("append").save(location_delta_path)
   #print(locations)
-sql("Refresh table einride.vehiclelog")
+sql("Refresh table Test.log")
 
 # COMMAND ----------
 
@@ -107,7 +107,7 @@ sql("Refresh table einride.vehiclelog")
 # COMMAND ----------
 
 for i in hour_path:
-  sql('update einride_vehiclelog_lookup set isprocessed = "Y" where hour_path = {0}'.format(i))
+  sql('update Test_log_lookup set isprocessed = "Y" where hour_path = {0}'.format(i))
 
 # COMMAND ----------
 
@@ -116,14 +116,14 @@ for i in hour_path:
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC select * from einride_vehiclelog_lookup order by hour_path
+# MAGIC select * from Test_log_lookup order by hour_path
 
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC select count(*) from einride.vehiclelog
+# MAGIC select count(*) from Test.log
 
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC select count(*) from einride.vehiclelog
+# MAGIC select count(*) from Test.log
