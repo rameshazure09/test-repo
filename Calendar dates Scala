@@ -1,0 +1,14 @@
+import java.util.Date;
+import java.text.SimpleDateFormat
+
+var MILLIS_IN_A_DAY = 1000 * 60 * 60 * 24;
+var date = new Date();
+var days: Int = -2;
+var newDate = new Date(date.getTime() + (MILLIS_IN_A_DAY * days));
+
+println("New date: \n" + newDate);
+
+val dateFormat = new SimpleDateFormat("yyyy/MM/dd")
+val date_folder = dateFormat.format(newDate)
+
+print(date_folder)
