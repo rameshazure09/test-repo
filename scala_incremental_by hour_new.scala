@@ -1,6 +1,6 @@
 // Databricks notebook source
 // %sql
-// create table einride_vehiclelog_lookup_new 
+// create table test_lookup_new 
 // (date timestamp,
 // hour_path int,
 // isprocessed varchar(2))
@@ -8,16 +8,16 @@
 // COMMAND ----------
 
 // MAGIC %sql
-// MAGIC select * from einride_vehiclelog_lookup_new order by date
+// MAGIC select * from test_lookup_new order by date
 
 // COMMAND ----------
 
 // MAGIC %sql
-// MAGIC insert into einride_vehiclelog_lookup_new values ('2022-11-30T11:30:00+0000',1,'N')
+// MAGIC insert into test_lookup_new values ('2022-11-30T11:30:00+0000',1,'N')
 
 // COMMAND ----------
 
-val df = sql("select max(date) as min_date from einride_vehiclelog_lookup_new group by date order by date desc limit 1")
+val df = sql("select max(date) as min_date from test_lookup_new group by date order by date desc limit 1")
 
 // COMMAND ----------
 
@@ -64,7 +64,7 @@ var  min_date:Date = simpleDateFormat.parse(s);
 // COMMAND ----------
 
 // DBTITLE 1,insert query
-sql("insert into einride_vehiclelog_lookup_new values ("+"'"+next_timestamp+"'"+",1,'N')")
+sql("insert into test_lookup_new values ("+"'"+next_timestamp+"'"+",1,'N')")
 
 // COMMAND ----------
 
@@ -181,7 +181,7 @@ var new_date = formatter.format(min_timestamp.getTime()+ (1000 * 60 * 60 * 1))
 
 // COMMAND ----------
 
-//val df = sql("select max(date) as min_date,max(hour_path) as min_hour from einride_vehiclelog_lookup group by date order by date desc limit 1")
+//val df = sql("select max(date) as min_date,max(hour_path) as min_hour from test_lookup group by date order by date desc limit 1")
 
 // COMMAND ----------
 
